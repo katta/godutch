@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="android-build" default="help"  basedir=".">
+
+    <!-- properties -->
+    <property file="android-config.properties" />
+    <property name="tools.dir" location="${sdk.dir}/tools" /> 
+    <property name="platformtools.dir" location="${sdk.dir}/platform-tools" /> 
+    <property name="android.jar" value="${sdk.dir}/platforms/android-${api.level}/android.jar" />  
+    <property name="aapt.path" value="${platformtools.dir}/aapt" />
+    <property name="dx.path" value="${platformtools.dir}/dx" />
+
+
+    <!-- project properties -->
+    <property name="project.name" value="testone" />
+
+    <!-- project directories -->
+    <property name="src.dir" location="${project.home.dir}/src" />
+    <property name="res.dir" location="${project.home.dir}/res" />
+    <property name="gen.dir" location="${project.home.dir}/gen" />
+    <property name="libs.dir" location="${project.home.dir}/libs" />
+    <property name="out.dir" location="${project.home.dir}/out" />
+    <property name="assets.dir" location="${project.home.dir}/assets" />
+    <property name="out.src.dir" location="${project.home.dir}/out/production/${project.name}" />
+
+    <property name="manifest.file" value="${project.home.dir}/AndroidManifest.xml" />
+    <property name="dex.file" value="${out.dir}/classes.dex" />
+    <property name="apk.file" value="${out.dir}/${project.name}.apk" />
+    <property name="resource.package.file.name" value="${project.name}.res" />
+
+    <!-- conditions -->
+     <condition property="verbose.option" value="--verbose" else="">
+         <istrue value="${verbose}" />
+     </condition>
+
+    <!-- path declarations -->
+	<path id="android.antlibs">
+        <pathelement path="${tools.dir}/lib/anttasks.jar" />
+    </path>
+
+    <path id="project.libs">
+   		<fileset dir="${libs.dir}" includes="*.jar" /> 
+    </path>
+
+
+    <!-- task definitions -->
+    <taskdef name="setup" 
+		classname="com.android.ant.SetupTask" 
+		classpathref="android.antlibs" />
+    
+    <taskdef name="aapt"
+        classname="com.android.ant.AaptExecLoopTask"
+        classpathref="android.antlibs" />
+
+	<taskdef name="apkbuilder"
+        classname="com.android.ant.ApkBuilderTask"
+		classpathref="android.antlibs" />
+    
+    <taskdef name="xpath"
+        classname="com.android.ant.XPathTask"
+        classpathref="android.antlibs" />
+
+	<!-- targets -->
+    
+    <!-- Cleans the output directories along with generated files -->
+    <target name="clean">
+	<echo message="Cleaning directories and generated files." />
+        <delete dir="${out.dir}" verbose="${verbose}" />
+        <delete dir="${gen.dir}" verbose="${verbose}" /> 
+    </target>
+
+
+    <!-- Creates the output directories if they don't exist yet. -->
+    <target name="-create.out.dirs">
+        <echo message="Creating output directories if needed." />
+        <mkdir dir="${gen.dir}" />
+        <mkdir dir="${out.src.dir}" />
+    </target>
+
+
+    <!-- Generates the R.java file for this project's resources. -->
+    <target name="-generate.r.java" depends="-create.out.dirs">
+        <echo message="Generating R.java / Manifest.java from the resources." />
+        <aapt executable="${aapt.path}"
+              command="package"
+              verbose="${verbose}"
+              manifest="${manifest.file}"
+              androidjar="${android.jar}"
+              rfolder="${gen.dir}">
+         
+             <res path="${res.dir}" />
+        </aapt>
+    </target>
+
+    <!-- Puts the project's resources into the output package file
+         This actually can create multiple resource package in case
+         Some custom apk with specific configuration have been
+         declared in default.properties.
+         -->
+    <target name="-package.resources" depends="-create.out.dirs">
+        <echo message="Packaging resources." />
+        <aapt executable="${aapt.path}"
+                command="package"
+		manifest="${manifest.file}"
+                assets="${assets.dir}"
+                androidjar="${android.jar}"
+                apkfolder="${out.dir}"
+                resourcefilename="${resource.package.file.name}">
+            <res path="${res.dir}" />
+        </aapt>
+    </target>
+
+    <target name="compile" depends="-generate.r.java">
+    	<javac destdir="${out.src.dir}" classpath="${android.jar}" includeAntRuntime="false">
+	    <src path="${src.dir}" />
+	    <src path="${gen.dir}" />
+	    <classpath>
+	        <fileset dir="${libs.dir}" includes="*.jar" />
+            </classpath>
+	</javac>
+    </target>
+   
+    <!-- Converts this project's .class files into .dex files -->
+    <target name="-dex" depends="compile">
+        <generate-dex />
+    </target>
+
+    <target name="-package" depends="-dex, -package.resources">
+    	<package-helper output.filepath="${apk.file}"  />
+    </target>
+
+	<target name="release" depends="clean, -set.release.mode, -package" />
+	<target name="debug" depends="clean, -set.debug.mode, -package"/>
+
+
+    <!-- Configurable macro, which allows to pass as parameters output directory,
+         output dex filename and external libraries to dex (optional) -->
+    <macrodef name="generate-dex">
+        <element name="external-libs" optional="yes" />
+        <element name="extra-parameters" optional="yes" />
+        <sequential>
+            <echo message="Converting compiled files and external libraries into ${dex.file}." />
+            <apply executable="${dx.path}" failonerror="true" parallel="true">
+                <arg value="--dex" />
+                <arg value="--output=${dex.file}" />
+                <extra-parameters />
+                <arg line="${verbose.option}" />
+				<arg path="${out.src.dir}" />
+                <path refid="project.libs" />
+                <external-libs />
+            </apply>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="package-helper">
+        <attribute name="output.filepath" />
+        <element name="extra-jars" optional="yes" />
+        <sequential>
+            <apkbuilder
+                    outfolder="${out.dir}"
+                    resourcefile="${resource.package.file.name}"
+                    apkfilepath="@{output.filepath}"
+		    		debugsigning="${debug.signing}"
+                    verbose="${verbose}">
+                <dex path="${dex.file}"/>
+				<extra-jars/>
+            </apkbuilder>
+        </sequential>
+    </macrodef>
+
+    <target name="-set.release.mode">
+        <!-- release mode is only valid if the manifest does not explicitly
+             set debuggable to true. default is false.
+             We actually store build.packaging.debug, not build.release -->
+        <xpath input="${manifest.file}" expression="/manifest/application/@android:debuggable"
+                output="debug.packaging" default="false"/>
+
+        <!-- signing mode: release -->
+        <property name="debug.signing" value="false" />
+
+        <if condition="${debug.packaging}">
+            <then>
+                <echo>******************************************************</echo>
+                <echo>****     Android Manifest has debuggable=true     ****</echo>
+                <echo>**** Can not do DEBUG packaging with RELEASE keys ****</echo>
+                <echo>******************************************************</echo>
+            </then>
+            <else>
+                <!-- property only set in release mode.
+                     Useful for if/unless attributes in target node
+                     when using Ant before 1.8 -->
+                <property name="release.mode" value="true"/>
+            </else>
+        </if>
+    </target>
+
+	<target name="-set.debug.mode">
+        <!-- property only set in debug mode.
+             Useful for if/unless attributes in target node
+             when using Ant before 1.8 -->
+        <property name="debug.mode" value="true"/>
+
+        <!-- whether the build is a debug build. always set. -->
+        <property name="debug.packaging" value="true" />
+
+        <!-- signing mode: debug -->
+        <property name="debug.signing" value="true" />
+
+    </target>
+
+    <target name="help">
+        <echo message="aal izz well!!" />
+    </target>
+</project>
