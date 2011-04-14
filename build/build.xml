@@ -8,6 +8,8 @@
     <property name="android.jar" value="${sdk.dir}/platforms/android-${api.level}/android.jar" />  
     <property name="aapt.path" value="${platformtools.dir}/aapt" />
     <property name="dx.path" value="${platformtools.dir}/dx" />
+    <property name="adb.path" value="${platformtools.dir}/adb" />
+    <property name="emulator.path" value="${tools.dir}/emulator" />
 
 
     <!-- project properties -->
@@ -207,7 +209,34 @@
 
     </target>
 
-    <target name="help">
+	<target name="install" depends="debug">
+		<exec executable="${adb.path}" failonerror="true">
+        	<arg line="-e" />
+            <arg value="install" />
+            <arg value="-r" />
+            <arg path="${apk.file}" />
+         </exec>
+	</target>
+
+	<target name="start.adb">
+		<exec executable="${adb.path}" failonerror="true">
+			<arg value="start-server" />
+		</exec>
+	</target>
+	
+	<target name="stop.adb">
+		<exec executable="${adb.path}" failonerror="true">
+			<arg value="kill-server" />
+		</exec>
+	</target>
+	
+	<target name="state.adb">
+		<exec executable="${adb.path}" failonerror="true">
+			<arg value="get-state" />
+		</exec>
+	</target>
+
+	<target name="help">
         <echo message="aal izz well!!" />
     </target>
 </project>
