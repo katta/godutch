@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent">-->
+
 
     <!--<TextView-->
         <!--android:layout_width="fill_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/hello"/>-->
+        <!--android:text="@string/two"/>-->
 
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trips" />
+<!--</LinearLayout>-->
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:stretchMode="columnWidth"
+        android:numColumns="1"
+        android:gravity="fill"
+        android:background="@color/white">
 
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Expenses" />
-
-</LinearLayout>
+    
+</GridView>

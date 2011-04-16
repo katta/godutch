@@ -13,7 +13,7 @@
 
 
     <!-- project properties -->
-    <property name="project.name" value="testone" />
+    <property name="project.name" value="godutch" />
 
     <!-- project directories -->
     <property name="src.dir" location="${project.home.dir}/src" />
