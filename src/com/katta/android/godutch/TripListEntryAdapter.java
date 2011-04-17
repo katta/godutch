@@ -6,17 +6,18 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class TripAdapter extends BaseAdapter {
+public class TripListEntryAdapter extends BaseAdapter {
     private Context context;
 
 
-    public TripAdapter(Context context) {
+    public TripListEntryAdapter(Context context) {
         this.context = context;
         trips.add("Trip One");
         trips.add("Trip Two");
@@ -34,16 +35,18 @@ public class TripAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
-
     
 
     public View getView(int i, View view, ViewGroup viewGroup) {
-        TextView tripView = new TextView(context);
+
+        CheckedTextView tripView = new CheckedTextView(context);
+
+//        TextView tripView = new TextView(context);
+        tripView.setChecked(true);
         tripView.setText(trips.get(i));
         tripView.setTextColor(Color.BLACK);
         tripView.setHeight(30);
-        tripView.setGravity(Gravity.CENTER_VERTICAL);
-
+//        tripView.setGravity(Gravity.CENTER_VERTICAL);
         return tripView;
     }
 

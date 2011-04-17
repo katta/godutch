@@ -1,27 +1,33 @@
 package com.katta.android.godutch;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.TextView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-public class LauncherActivity extends Activity {
+public class LauncherActivity extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        setListAdapter(new TripListEntryAdapter(this));
+    }
 
-        GridView gridView = (GridView)findViewById(R.id.gridview);
-        gridView.setAdapter(new TripAdapter(this));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        boolean result = super.onCreateOptionsMenu(menu);
+        menu.add(Menu.NONE, Menu.FIRST,Menu.NONE, R.string.add_trip);
+        return result;
+    }
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(LauncherActivity.this, ((TextView)view).getText(), Toast.LENGTH_SHORT).show();                
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+        return super.onOptionsItemSelected(item);
     }
 }
+
+

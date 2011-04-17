@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="one">Trip One..</string>
-    <string name="two">Ooty - 2007</string>
-    <string name="three">Boston - Newyork</string>
-    <string name="app_name"></string>
+    <string name="no_trips">No Trips Found..</string>
+    <string name="add_trip">Add Trip</string>
+    <string name="app_name">Go Dutch</string>
 </resources>
