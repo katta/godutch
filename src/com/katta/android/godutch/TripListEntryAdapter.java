@@ -1,12 +1,11 @@
 package com.katta.android.godutch;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckedTextView;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,13 +14,18 @@ import java.util.List;
 
 public class TripListEntryAdapter extends BaseAdapter {
     private Context context;
+    private LayoutInflater layoutInflater;
+    private List<String> trips = new ArrayList<String>();
+    
 
 
     public TripListEntryAdapter(Context context) {
         this.context = context;
-        trips.add("Trip One");
-        trips.add("Trip Two");
-        trips.add("Trip Three");
+        layoutInflater = LayoutInflater.from(context);
+
+        for(int i=0; i<100; i++) {
+            trips.add("Trip : " + i);
+        }
     }
 
     public int getCount() {
@@ -37,19 +41,28 @@ public class TripListEntryAdapter extends BaseAdapter {
     }
     
 
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View convertView, ViewGroup parent) {
 
-        CheckedTextView tripView = new CheckedTextView(context);
+        TripListEntryViewHolder viewHolder;
 
-//        TextView tripView = new TextView(context);
-        tripView.setChecked(true);
-        tripView.setText(trips.get(i));
-        tripView.setTextColor(Color.BLACK);
-        tripView.setHeight(30);
-//        tripView.setGravity(Gravity.CENTER_VERTICAL);
-        return tripView;
+        if(convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.trip_list_entry, parent, false);
+            viewHolder = new TripListEntryViewHolder();
+            viewHolder.checkbox = (CheckBox) convertView.findViewById(R.id.triplistentrycheckbox);
+            viewHolder.textview = (TextView) convertView.findViewById(R.id.triplistentrytext);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (TripListEntryViewHolder) convertView.getTag();
+        }
+
+        viewHolder.textview.setText(trips.get(i));
+        return convertView;
+
     }
 
-    private List<String> trips = new ArrayList<String>();
-
+    static class TripListEntryViewHolder
+    {
+        CheckBox checkbox;
+        TextView textview;
+    }
 }
