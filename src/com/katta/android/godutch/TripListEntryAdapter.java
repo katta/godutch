@@ -16,8 +16,6 @@ public class TripListEntryAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private List<String> trips = new ArrayList<String>();
-    
-
 
     public TripListEntryAdapter(Context context) {
         this.context = context;
