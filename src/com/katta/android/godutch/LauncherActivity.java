@@ -19,6 +19,7 @@ public class LauncherActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         boolean result = super.onCreateOptionsMenu(menu);
         menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, R.string.add_trip);
+        menu.add(Menu.NONE, Menu.NONE, Menu.NONE, R.string.delete_trip);
         return result;
     }
 
