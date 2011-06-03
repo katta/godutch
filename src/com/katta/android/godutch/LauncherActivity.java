@@ -26,6 +26,9 @@ public class LauncherActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result = super.onOptionsItemSelected(item);
+
+
+
         Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
         return result;
     }
