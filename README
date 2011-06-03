@@ -1,1 +1,17 @@
 Android app to manage trip expenses.
+
+Run the following commands in sequence for deploying the application on the emulator for testing.
+
+Starting the server
+------------------
+Run <PROJHOME>/start.sh
+
+Starting the emulator
+---------------------
+Run <PROJHOME>/emulator.sh
+
+Installing the application on to emulator
+----------------------------------------
+Run <PROJHOME>/b install
+
+Look @ <PROJHOME>/build/build.xml for more targets.
