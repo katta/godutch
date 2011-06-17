@@ -1,8 +1,10 @@
-package org.katta;
+package org.katta.activity;
+
 
 import org.katta.adapter.TripListEntryAdapter;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ public class GoDutchActivity extends ListActivity {
 		boolean result = super.onOptionsItemSelected(item);
 		Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
 		
+		startActivity(new Intent(this, TripDetailActivity.class));
 		
 		return result;
 	}

@@ -5,4 +5,9 @@
     <string name="delete_trip">Delete Trip</string>
     <string name="app_name">GoDutch</string>
     <string name="trip_detail_form_title">Trip Details</string>
+    <string name="trip_detail_field_name">Name :</string>
+    <string name="trip_detail_field_description">Description :</string>
+    <string name="trip_detail_form_startdate">Start Date :</string>
+    <string name="trip_detail_button_add">Add</string>
+    <string name="trip_detail_button_cancel">Cancel</string>
 </resources>

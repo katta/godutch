@@ -1,7 +1,5 @@
 package org.katta.activity;
 
-import org.katta.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 
