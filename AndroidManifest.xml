@@ -3,7 +3,7 @@
       package="org.katta"
       android:versionCode="1"
       android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="9" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name=".GoDutchActivity"
@@ -13,6 +13,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        
+		<activity android:name="org.katta.activity.TripDetailActivity" android:label="@string/trip_detail_form_title">
+		</activity>        
     </application>
 </manifest>
