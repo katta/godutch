@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_trips">No Trips Found..</string>
+    <string name="add_trip">New Trip</string>
+    <string name="delete_trip">Delete Trip</string>
+    <string name="app_name">GoDutch</string>
+</resources>
