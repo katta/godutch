@@ -20,10 +20,6 @@ public class TripListEntryAdapter extends BaseAdapter {
 
 	public TripListEntryAdapter(Context context) {
 		layoutInflater = LayoutInflater.from(context);
-
-		for (int i = 0; i < 100; i++) {
-			trips.add("Trip - " + i);
-		}
 	}
 
 	public int getCount() {
@@ -43,8 +39,7 @@ public class TripListEntryAdapter extends BaseAdapter {
 		TripListEntryViewHolder viewHolder;
 
 		if (convertView == null) {
-			convertView = layoutInflater.inflate(R.layout.trip_list_entry,
-					parent, false);
+			convertView = layoutInflater.inflate(R.layout.trip_list_entry, parent, false);
 			viewHolder = new TripListEntryViewHolder();
 			viewHolder.checkbox = (CheckBox) convertView.findViewById(R.id.triplistentrycheckbox);
 			viewHolder.textview = (TextView) convertView.findViewById(R.id.triplistentrytext);

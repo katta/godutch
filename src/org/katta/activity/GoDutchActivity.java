@@ -17,6 +17,8 @@ public class GoDutchActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		setListAdapter(new TripListEntryAdapter(this));
+		
+		getListView().setTextFilterEnabled(true);
 	}
 
 	@Override
