@@ -30,6 +30,8 @@ public class GoDutchActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean result = super.onOptionsItemSelected(item);
+		
+		
 		Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
 		
 		startActivity(new Intent(this, TripDetailActivity.class));
