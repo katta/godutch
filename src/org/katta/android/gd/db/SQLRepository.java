@@ -12,7 +12,7 @@ public class SQLRepository extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(String.format("CREATE TABLE %s (%s TEXT, %s TEXT, %s TEXT",
+		db.execSQL(String.format("CREATE TABLE %s (%s TEXT, %s TEXT, %s TEXT)",
 				DBConstants.TBL_TRIP, DBConstants.COL_TRIP_NAME,
 				DBConstants.COL_TRIP_DESCRIPTION,
 				DBConstants.COL_TRIP_STARTDATE));

@@ -45,6 +45,7 @@ class AddTripButtonListener implements OnClickListener {
 		values.put(DBConstants.COL_TRIP_NAME, txtName.getText().toString());
 		values.put(DBConstants.COL_TRIP_DESCRIPTION, txtDescription.getText().toString());
 		
-		database.insert(DBConstants.TBL_TRIP, null, values);
+		long rowId = database.insert(DBConstants.TBL_TRIP, null, values);
+		Toast.makeText(context, rowId==-1?"Failed to save data.":"Successfully added.", Toast.LENGTH_SHORT).show();
 	}
 }
